@@ -3,10 +3,13 @@ import { MapPin, Filter } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import BartenderCard from '../components/ui/BartenderCard';
 import Button from '../components/ui/Button';
+import BannerCarousel from '../components/ui/BannerCarousel';
+import { useNavigate } from 'react-router-dom';
 import { getDocuments } from '../services/firebase/firestore';
 import type { Bartender } from '../types';
 
 const Browse: React.FC = () => {
+  const navigate = useNavigate();
   const [bartenders, setBartenders] = useState<Bartender[]>([]);
   const [loading, setLoading] = useState(true);
   
@@ -51,6 +54,22 @@ const Browse: React.FC = () => {
   return (
     <Layout>
       <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
+        
+        <div style={{ marginBottom: '3rem', maxWidth: '1000px', margin: '0 auto 3rem' }}>
+          <BannerCarousel />
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap' }}>
+            <Button size="lg" onClick={() => navigate('/browse')}>
+              Find Bartenders
+            </Button>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')}>
+              Rent Equipments
+            </Button>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')}>
+              Become a Partner
+            </Button>
+          </div>
+        </div>
+
         <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '2rem' }}>
           Find Professional Bartenders
         </h1>
@@ -63,7 +82,7 @@ const Browse: React.FC = () => {
               placeholder="Search by City..." 
               value={cityFilter}
               onChange={(e) => setCityFilter(e.target.value)}
-              style={{ background: 'transparent', border: 'none', color: 'white', width: '100%', outline: 'none' }}
+              style={{ background: 'transparent', border: 'none', color: 'var(--color-text)', width: '100%', outline: 'none' }}
             />
           </div>
 

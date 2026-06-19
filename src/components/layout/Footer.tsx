@@ -14,13 +14,14 @@ const Footer: React.FC = () => {
               THEBARBACK
             </Link>
             <p className={styles.description}>
-              India's premium marketplace for hiring professional bartenders. Elevating events with exceptional cocktail experiences.
+              Bangalore's premium marketplace for hiring professional bartenders. Elevating events with exceptional cocktail experiences.
             </p>
           </div>
           
           <div>
             <h3 className={styles.sectionTitle}>For Customers</h3>
             <ul className={styles.linkList}>
+              <li><Link to="/about" className={styles.link}>About Us</Link></li>
               <li><Link to="/browse" className={styles.link}>Find a Bartender</Link></li>
               <li><Link to="/cities" className={styles.link}>Cities We Serve</Link></li>
               <li><Link to="/occasions" className={styles.link}>Occasions</Link></li>

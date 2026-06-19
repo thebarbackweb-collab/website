@@ -14,23 +14,12 @@ const Rentals: React.FC = () => {
     date: '',
     time: '',
     duration: '',
-    location: ''
+    location: '',
+    phone: '',
+    state: 'Karnataka',
+    city: 'Bangalore',
+    pincode: ''
   });
-
-  // Generate next 365 days for date dropdown
-  const dateOptions = React.useMemo(() => {
-    const options = [];
-    const today = new Date();
-    for (let i = 0; i < 365; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-      const day = d.getDate();
-      const month = d.toLocaleString('en-US', { month: 'short' });
-      const weekday = d.toLocaleString('en-US', { weekday: 'long' });
-      options.push(`${day} ${month}, ${weekday}`);
-    }
-    return options;
-  }, []);
 
   useEffect(() => {
     const fetchEquipments = async () => {
@@ -53,19 +42,19 @@ const Rentals: React.FC = () => {
     if (!selectedEquipment) return;
 
     const brokerNumber = '919986698096';
-    const message = `Hi, I would like to rent the following equipment:\n\n*${selectedEquipment.title}*\nListed Price: ₹${selectedEquipment.price} ${selectedEquipment.pricingType}\n\n*Rental Details:*\nDate: ${formData.date}\nTime: ${formData.time}\nDuration Needed: ${formData.duration}\nDelivery Location: ${formData.location}\n\nPlease confirm availability and total cost.`;
+    const message = `Hi, I would like to rent the following equipment:\n\n*${selectedEquipment.title}*\nListed Price: ₹${selectedEquipment.price} ${selectedEquipment.pricingType}\n\n*Rental Details:*\nDate: ${formData.date}\nTime: ${formData.time}\nDuration Needed: ${formData.duration}\nDelivery Location: ${formData.location}, ${formData.city}, ${formData.state} - ${formData.pincode}\nContact: ${formData.phone}\n\nPlease confirm availability and total cost.`;
     
     const whatsappUrl = `https://wa.me/${brokerNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
     
     setSelectedEquipment(null);
-    setFormData({ date: '', time: '', duration: '', location: '' });
+    setFormData({ date: '', time: '', duration: '', location: '', phone: '', state: 'Karnataka', city: 'Bangalore', pincode: '' });
   };
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section style={{ padding: '6rem 1.5rem 4rem', textAlign: 'center', background: 'linear-gradient(to bottom, rgba(17, 24, 39, 1), rgba(0, 0, 0, 0.8))' }}>
+      <section style={{ padding: '6rem 1.5rem 4rem', textAlign: 'center', background: 'var(--color-bg)' }}>
         <div className="container">
           <div style={{ display: 'inline-flex', padding: '1rem', background: 'rgba(212, 175, 55, 0.1)', borderRadius: '50%', marginBottom: '1.5rem' }}>
             <Package size={40} className="text-gold" />
@@ -140,7 +129,7 @@ const Rentals: React.FC = () => {
                       fullWidth 
                       disabled={item.status === 'rented'}
                       onClick={() => setSelectedEquipment(item)}
-                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: item.status === 'rented' ? 'rgba(255,255,255,0.1)' : 'var(--color-primary)', color: item.status === 'rented' ? 'rgba(255,255,255,0.5)' : '#000' }}
+                      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: item.status === 'rented' ? 'rgba(0,0,0,0.05)' : 'var(--color-primary)', color: item.status === 'rented' ? 'var(--color-text-muted)' : '#000' }}
                     >
                       {item.status === 'rented' ? 'Out of Stock' : 'Rent Equipment'}
                     </Button>
@@ -160,7 +149,7 @@ const Rentals: React.FC = () => {
 
       {/* Booking Modal */}
       {selectedEquipment && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
           <div className="glass-panel" style={{ padding: '2.5rem', width: '100%', maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto' }}>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-serif)' }}>Rent Equipment</h3>
             <p style={{ color: 'var(--color-primary)', fontWeight: 600, marginBottom: '2rem' }}>{selectedEquipment.title}</p>
@@ -168,17 +157,12 @@ const Rentals: React.FC = () => {
             <form onSubmit={handleWhatsAppRent} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
               <div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}><Calendar size={16} /> Event Date</label>
-                <select required value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', outline: 'none' }}>
-                  <option value="">Select Date...</option>
-                  {dateOptions.map(date => (
-                    <option key={date} value={date}>{date}</option>
-                  ))}
-                </select>
+                <input type="date" required value={formData.date} onChange={e => setFormData({...formData, date: e.target.value})} min={new Date().toISOString().split('T')[0]} style={{ width: '100%', padding: '0.75rem 1rem', background: 'var(--color-bg)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--color-text)', borderRadius: '8px', outline: 'none' }} />
               </div>
 
               <div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}><Clock size={16} /> Start Time</label>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', maxHeight: '120px', overflowY: 'auto', padding: '0.5rem', background: 'rgba(0,0,0,0.3)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', maxHeight: '120px', overflowY: 'auto', padding: '0.5rem', background: 'var(--color-bg)', borderRadius: '8px', border: '1px solid rgba(0,0,0,0.1)' }}>
                   {['8 am', '9 am', '10 am', '11 am', '12 pm', '1 pm', '2 pm', '3 pm', '4 pm', '5 pm', '6 pm', '7 pm', '8 pm', '9 pm', '10 pm', '11 pm'].map(time => (
                     <button
                       key={time}
@@ -187,9 +171,9 @@ const Rentals: React.FC = () => {
                       style={{
                         padding: '0.5rem 0.75rem',
                         borderRadius: '6px',
-                        background: formData.time === time ? 'var(--color-primary)' : 'rgba(0,0,0,0.5)',
-                        border: `1px solid ${formData.time === time ? 'var(--color-primary)' : 'rgba(255,255,255,0.2)'}`,
-                        color: formData.time === time ? '#000' : 'white',
+                        background: formData.time === time ? 'var(--color-primary)' : 'var(--color-bg)',
+                        border: `1px solid ${formData.time === time ? 'var(--color-primary)' : 'rgba(0,0,0,0.1)'}`,
+                        color: formData.time === time ? '#000' : 'var(--color-text)',
                         fontWeight: formData.time === time ? 600 : 400,
                         cursor: 'pointer',
                         transition: 'all 0.2s ease',
@@ -205,17 +189,43 @@ const Rentals: React.FC = () => {
 
               <div>
                 <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Duration Needed (e.g., 4 Hours, 2 Days)</label>
-                <input required type="text" placeholder="How long do you need it?" value={formData.duration} onChange={e => setFormData({...formData, duration: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', outline: 'none' }} />
+                <input required type="text" placeholder="How long do you need it?" value={formData.duration} onChange={e => setFormData({...formData, duration: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'var(--color-bg)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--color-text)', borderRadius: '8px', outline: 'none' }} />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>WhatsApp Number</label>
+                  <input required type="tel" pattern="[0-9]{10}" maxLength={10} placeholder="10 digit number" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'var(--color-bg)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--color-text)', borderRadius: '8px', outline: 'none' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Pincode</label>
+                  <input required type="text" pattern="[0-9]{6}" maxLength={6} placeholder="6 digit pincode" value={formData.pincode} onChange={e => setFormData({...formData, pincode: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'var(--color-bg)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--color-text)', borderRadius: '8px', outline: 'none' }} />
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>State</label>
+                  <select required value={formData.state} onChange={e => setFormData({...formData, state: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'var(--color-bg)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--color-text)', borderRadius: '8px', outline: 'none' }}>
+                    <option value="Karnataka">Karnataka</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>City</label>
+                  <select required value={formData.city} onChange={e => setFormData({...formData, city: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'var(--color-bg)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--color-text)', borderRadius: '8px', outline: 'none' }}>
+                    <option value="Bangalore">Bangalore</option>
+                  </select>
+                </div>
               </div>
 
               <div>
                 <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}><Navigation size={16} /> Delivery Location (Bangalore Only)</label>
-                <textarea required placeholder="Full address for delivery..." value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', outline: 'none', minHeight: '80px', resize: 'vertical' }} />
+                <textarea required placeholder="Full address for delivery..." value={formData.location} onChange={e => setFormData({...formData, location: e.target.value})} style={{ width: '100%', padding: '0.75rem 1rem', background: 'var(--color-bg)', border: '1px solid rgba(0,0,0,0.1)', color: 'var(--color-text)', borderRadius: '8px', outline: 'none', minHeight: '80px', resize: 'vertical' }} />
               </div>
               
               <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                 <Button type="button" variant="ghost" onClick={() => setSelectedEquipment(null)} style={{ flex: 1 }}>Cancel</Button>
-                <Button type="submit" size="lg" disabled={!formData.time || !formData.date} style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: (!formData.time || !formData.date) ? 'rgba(255,255,255,0.1)' : '#25D366', color: (!formData.time || !formData.date) ? 'rgba(255,255,255,0.5)' : 'white' }}>
+                <Button type="submit" size="lg" disabled={!formData.time || !formData.date || formData.phone.length !== 10 || formData.pincode.length !== 6} style={{ flex: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', background: (!formData.time || !formData.date || formData.phone.length !== 10 || formData.pincode.length !== 6) ? 'var(--color-bg)' : '#25D366', color: (!formData.time || !formData.date || formData.phone.length !== 10 || formData.pincode.length !== 6) ? 'var(--color-text-muted)' : 'white' }}>
                   <MessageCircle size={18} /> Request Quote
                 </Button>
               </div>

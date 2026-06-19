@@ -20,21 +20,6 @@ const BookingFlow: React.FC = () => {
   const [bartender, setBartender] = useState<Bartender | null>(null);
   const [loading, setLoading] = useState(true);
   
-  // Generate next 365 days for date dropdown
-  const dateOptions = React.useMemo(() => {
-    const options = [];
-    const today = new Date();
-    for (let i = 0; i < 365; i++) {
-      const d = new Date(today);
-      d.setDate(today.getDate() + i);
-      const day = d.getDate();
-      const month = d.toLocaleString('en-US', { month: 'short' });
-      const weekday = d.toLocaleString('en-US', { weekday: 'long' });
-      options.push(`${day} ${month}, ${weekday}`);
-    }
-    return options;
-  }, []);
-  
   // Form State
   const [currentStep, setCurrentStep] = useState(1);
   const [eventData, setEventData] = useState({
@@ -51,7 +36,9 @@ const BookingFlow: React.FC = () => {
     phone: '',
     email: '',
     venue: '',
-    city: '',
+    state: 'Karnataka',
+    city: 'Bangalore',
+    pincode: '',
   });
 
   useEffect(() => {
@@ -88,7 +75,13 @@ const BookingFlow: React.FC = () => {
   };
 
   const isStep1Valid = Boolean(eventData.occasion && eventData.date && eventData.guestCount && eventData.time);
-  const isStep2Valid = Boolean(customerData.name && customerData.phone && customerData.email && customerData.city);
+  const isStep2Valid = Boolean(
+    customerData.name && 
+    customerData.phone.length === 10 && 
+    customerData.email && 
+    customerData.pincode && 
+    customerData.city
+  );
 
   const handleSubmit = async () => {
     if (!bartender) return;
@@ -103,7 +96,7 @@ const BookingFlow: React.FC = () => {
         eventDate: eventData.date,
         eventTime: eventData.time,
         venue: customerData.venue,
-        city: customerData.city || bartender.city,
+        city: customerData.city,
         guests: eventData.guestCount,
         occasion: eventData.occasion,
         budget: 'Pending Quote', // no longer fixed
@@ -132,10 +125,11 @@ Guests: ${eventData.guestCount}
 Bartenders Needed: ${eventData.bartenderCount}
 
 *Venue:*
-${customerData.venue}, ${customerData.city || bartender.city}
+${customerData.venue}, ${customerData.city}, ${customerData.state} - ${customerData.pincode}
 
 *Contact:*
 Name: ${customerData.name}
+Phone: ${customerData.phone}
 
 *Special Requirements:* ${eventData.specialReqs || 'None'}
 
@@ -186,7 +180,7 @@ Please let me know the availability and estimated quote.`;
                 
                 {/* 1. Occasion */}
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'white', fontWeight: 600 }}>Select Occasion *</label>
+                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600 }}>Select Occasion *</label>
                   <select name="occasion" value={eventData.occasion} onChange={handleEventChange} className={styles.select}>
                     <option value="">Select...</option>
                     <option value="Inviting Guests">Inviting Guests</option>
@@ -202,7 +196,7 @@ Please let me know the availability and estimated quote.`;
 
                 {/* 2. Date */}
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'white', fontWeight: 600 }}>Select Date *</label>
+                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600 }}>Select Date *</label>
                   <select name="date" value={eventData.date} onChange={handleEventChange} className={styles.select}>
                     <option value="">Select from here</option>
                     {dateOptions.map(date => (
@@ -213,7 +207,7 @@ Please let me know the availability and estimated quote.`;
 
                 {/* 3. Guests */}
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'white', fontWeight: 600, marginBottom: '0.25rem' }}>Number of Guests *</label>
+                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.25rem' }}>Number of Guests *</label>
                   <div style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>drinkers + non-drinkers (5+ years of age)</div>
                   <select name="guestCount" value={eventData.guestCount} onChange={handleEventChange} className={styles.select}>
                     <option value="">Select...</option>
@@ -227,7 +221,7 @@ Please let me know the availability and estimated quote.`;
 
                 {/* 4. Total Hours */}
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'white', fontWeight: 600 }}>Total Hours Needed *</label>
+                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600 }}>Total Hours Needed *</label>
                   <select name="duration" value={eventData.duration} onChange={handleEventChange} className={styles.select}>
                     <option value="3 Hours">3 Hours</option>
                     <option value="4 Hours">4 Hours</option>
@@ -239,7 +233,7 @@ Please let me know the availability and estimated quote.`;
 
                 {/* 5. Add Bartenders */}
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'white', fontWeight: 600, marginBottom: '0.25rem' }}>Total Bartenders Needed *</label>
+                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.25rem' }}>Total Bartenders Needed *</label>
                   <div style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem' }}>Note: 1 Bartender is already selected by default because you are booking {bartender.name}.</div>
                   <select name="bartenderCount" value={eventData.bartenderCount} onChange={handleEventChange} className={styles.select}>
                     <option value="1">1 Bartender (Included)</option>
@@ -251,7 +245,7 @@ Please let me know the availability and estimated quote.`;
 
                 {/* 6. Arrival Time */}
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
-                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'white', fontWeight: 600, marginBottom: '0.25rem' }}>Select Bartender Arrival Time *</label>
+                  <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600, marginBottom: '0.25rem' }}>Select Bartender Arrival Time *</label>
                   <div style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginBottom: '1rem' }}>We recommend at least 1 hour before your event starts</div>
                   
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
@@ -263,9 +257,9 @@ Please let me know the availability and estimated quote.`;
                         style={{
                           padding: '0.75rem 1rem',
                           borderRadius: '8px',
-                          background: eventData.time === time ? 'var(--color-primary)' : 'rgba(0,0,0,0.5)',
-                          border: `1px solid ${eventData.time === time ? 'var(--color-primary)' : 'rgba(255,255,255,0.2)'}`,
-                          color: eventData.time === time ? '#000' : 'white',
+                          background: eventData.time === time ? 'var(--color-primary)' : 'var(--color-bg)',
+                          border: `1px solid ${eventData.time === time ? 'var(--color-primary)' : 'rgba(0,0,0,0.1)'}`,
+                          color: eventData.time === time ? '#000' : 'var(--color-text)',
                           fontWeight: eventData.time === time ? 600 : 400,
                           cursor: 'pointer',
                           transition: 'all 0.2s ease'
@@ -292,8 +286,8 @@ Please let me know the availability and estimated quote.`;
                 </div>
                 
                 <div className={styles.formGroup}>
-                  <label className={styles.label}>WhatsApp Number *</label>
-                  <input type="tel" name="phone" value={customerData.phone} onChange={handleCustomerChange} className={styles.input} />
+                  <label className={styles.label}>WhatsApp Number (10 digits) *</label>
+                  <input type="tel" pattern="[0-9]{10}" maxLength={10} name="phone" value={customerData.phone} onChange={handleCustomerChange} className={styles.input} placeholder="e.g. 9876543210" />
                 </div>
                 
                 <div className={styles.formGroup}>
@@ -302,8 +296,22 @@ Please let me know the availability and estimated quote.`;
                 </div>
 
                 <div className={styles.formGroup}>
+                  <label className={styles.label}>State *</label>
+                  <select name="state" value={customerData.state} onChange={handleEventChange} className={styles.select}>
+                    <option value="Karnataka">Karnataka</option>
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
                   <label className={styles.label}>City *</label>
-                  <input type="text" name="city" value={customerData.city} onChange={handleCustomerChange} placeholder={bartender.city} className={styles.input} />
+                  <select name="city" value={customerData.city} onChange={handleEventChange} className={styles.select}>
+                    <option value="Bangalore">Bangalore</option>
+                  </select>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Pincode *</label>
+                  <input type="text" name="pincode" pattern="[0-9]{6}" maxLength={6} value={customerData.pincode} onChange={handleCustomerChange} className={styles.input} placeholder="6 digit pincode" />
                 </div>
 
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>

@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Browse from './pages/Browse';
+import About from './pages/About';
+import PartnerLanding from './pages/PartnerLanding';
 import PartnerRegistration from './pages/PartnerRegistration';
 import BartenderPortal from './pages/BartenderPortal';
 import Dashboard from './pages/Dashboard';
@@ -18,12 +20,14 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/browse" element={<Browse />} />
         <Route path="/rentals" element={<Rentals />} />
         <Route path="/bartender/:city/:slug" element={<BartenderProfile />} />
         <Route path="/book/:bartenderId" element={<BookingFlow />} />
         <Route path="/portal" element={<BartenderPortal />} />
-        <Route path="/partner" element={<PartnerRegistration />} />
+        <Route path="/partner" element={<PartnerLanding />} />
+        <Route path="/partner/apply" element={<PartnerRegistration />} />
         <Route path="/dashboard" element={<Dashboard />} />
         
         {/* Admin Routes */}

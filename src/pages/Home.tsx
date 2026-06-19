@@ -6,6 +6,7 @@ import Button from '../components/ui/Button';
 import BartenderCard from '../components/ui/BartenderCard';
 import CityCard from '../components/ui/CityCard';
 import OccasionCard from '../components/ui/OccasionCard';
+import BannerCarousel from '../components/ui/BannerCarousel';
 import { useFeaturedBartenders } from '../hooks/useFeaturedBartenders';
 import { GlassWater, Heart, Music, Wine, Cake, Users, Home as HomeIcon, Gem, Plane } from 'lucide-react';
 import styles from './Home.module.css';
@@ -65,23 +66,13 @@ const Home: React.FC = () => {
           transition={{ duration: 1, delay: 0.2 }}
         >
           <h1 className={`${styles.title} text-gradient-gold`}>
-            India's Premium Bartending Marketplace
+            Premium Bartending Marketplace in Bangalore
           </h1>
           <p className={styles.subtitle}>
-            Book verified professional bartenders for weddings, private parties, corporate events and luxury celebrations anywhere in India.
+            Book verified professional bartenders for weddings, private parties, corporate events and luxury celebrations in Bangalore.
           </p>
 
-          <div className={styles.ctaGroup}>
-            <Button size="lg" onClick={() => navigate('/browse')}>
-              Find Bartenders
-            </Button>
-            <Button size="lg" variant="glass" onClick={() => navigate('/rentals')}>
-              Rent Equipments
-            </Button>
-            <Button size="lg" variant="glass" onClick={() => navigate('/partner')}>
-              Become a Partner
-            </Button>
-          </div>
+          {/* Banner & CTAs Moved Below Hero */}
 
           {/* Trust Stats */}
           <motion.div 
@@ -110,6 +101,25 @@ const Home: React.FC = () => {
         </motion.div>
       </section>
 
+      {/* Banner Ad Carousel and Main CTAs */}
+      <section className="container" style={{ padding: '2rem 1.5rem 4rem' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <BannerCarousel />
+          
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap' }}>
+            <Button size="lg" onClick={() => navigate('/browse')}>
+              Find Bartenders
+            </Button>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')}>
+              Rent Equipments
+            </Button>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')}>
+              Become a Partner
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Bartenders Section */}
       <section className="container" style={{ padding: '6rem 1.5rem' }}>
         <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '1rem' }}>Featured Bartenders</h2>
@@ -128,7 +138,7 @@ const Home: React.FC = () => {
         ) : (
           <div className="glass-panel" style={{ padding: '3rem', textAlign: 'center' }}>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>No Bartenders Yet</h3>
-            <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem' }}>Be the first to join India's premium bartending marketplace.</p>
+            <p style={{ color: 'var(--color-text-muted)', marginBottom: '2rem' }}>Be the first to join Bangalore's premium bartending marketplace.</p>
             <Button onClick={() => navigate('/partner')}>Become a Partner</Button>
           </div>
         )}
@@ -139,7 +149,7 @@ const Home: React.FC = () => {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem' }}>
           <div>
             <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>Cities We Serve</h2>
-            <p style={{ color: 'var(--color-text-muted)' }}>Find elite bartenders in India's major metropolitan areas.</p>
+            <p style={{ color: 'var(--color-text-muted)' }}>Find elite bartenders in Bangalore.</p>
           </div>
           <Button variant="ghost" onClick={() => navigate('/cities')}>View All Cities</Button>
         </div>
@@ -196,7 +206,7 @@ const Home: React.FC = () => {
         <div className="container">
           <h2 className={styles.ctaTitle}>Are you a Professional Bartender?</h2>
           <p className={styles.ctaDesc}>
-            Join India's most premium bartending marketplace. Get exclusive bookings, manage your availability, and grow your business.
+            Join Bangalore's most premium bartending marketplace. Get exclusive bookings, manage your availability, and grow your business.
           </p>
           <Button size="lg" onClick={() => navigate('/partner')}>
             Become a Partner Today

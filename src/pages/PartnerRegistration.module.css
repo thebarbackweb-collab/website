@@ -10,7 +10,7 @@
 .progressContainer {
   width: 100%;
   height: 4px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 2px;
   margin-bottom: 3rem;
   overflow: hidden;
@@ -58,7 +58,7 @@
   width: 100%;
   background: transparent;
   border: none;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
   color: var(--color-text);
   font-size: 1.5rem;
   padding: 0.5rem 0;
@@ -67,7 +67,7 @@
 }
 
 .largeInput::placeholder {
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(0, 0, 0, 0.3);
 }
 
 .largeInput:focus, .largeSelect:focus {
@@ -114,7 +114,7 @@
 }
 
 .navButton:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .navButtonPrimary {
@@ -146,8 +146,8 @@
 }
 
 .uploadWrapper {
-  background: rgba(255,255,255,0.03);
-  border: 1px dashed rgba(255,255,255,0.2);
+  background: var(--color-bg);
+  border: 1px dashed rgba(0,0,0,0.2);
   border-radius: 12px;
   padding: 2rem;
   text-align: center;
