@@ -32,7 +32,8 @@
 
 .heroContent {
   text-align: center;
-  max-width: 900px;
+  width: 100%;
+  max-width: 1200px;
   z-index: 1;
   padding: 0 1.5rem;
 }

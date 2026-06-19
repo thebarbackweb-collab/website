@@ -73,7 +73,7 @@ const Home: React.FC = () => {
           </p>
 
           {/* Banner & CTAs Moved Below Hero */}
-          <div style={{ maxWidth: '800px', margin: '0 auto 3rem' }}>
+          <div style={{ width: '100%', margin: '0 auto 3rem' }}>
             <BannerCarousel />
             
             <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
