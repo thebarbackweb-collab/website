@@ -197,12 +197,15 @@ Please let me know the availability and estimated quote.`;
                 {/* 2. Date */}
                 <div className={styles.formGroup} style={{ gridColumn: '1 / -1' }}>
                   <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600 }}>Select Date *</label>
-                  <select name="date" value={eventData.date} onChange={handleEventChange} className={styles.select}>
-                    <option value="">Select from here</option>
-                    {dateOptions.map(date => (
-                      <option key={date} value={date}>{date}</option>
-                    ))}
-                  </select>
+                  <input 
+                    type="date" 
+                    name="date" 
+                    required 
+                    value={eventData.date} 
+                    onChange={handleEventChange} 
+                    min={new Date().toISOString().split('T')[0]} 
+                    className={styles.input} 
+                  />
                 </div>
 
                 {/* 3. Guests */}
