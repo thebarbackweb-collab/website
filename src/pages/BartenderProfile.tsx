@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Star, Award, CheckCircle, MessageSquare, Calendar } from 'lucide-react';
+import { MapPin, Star, Award, CheckCircle } from 'lucide-react';
 import { getBartenderBySlug } from '../services/firebase/bartenders';
 import type { Bartender } from '../types';
 import Layout from '../components/layout/Layout';
@@ -56,8 +56,6 @@ const BartenderProfile: React.FC = () => {
     // For now, navigate to a placeholder booking route
     navigate(`/book/${bartender.id}`);
   };
-
-  const today = new Date().toISOString().split('T')[0];
 
   return (
     <Layout>

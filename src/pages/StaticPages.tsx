@@ -1,7 +1,6 @@
 import React from 'react';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import Layout from '../components/layout/Layout';
-import styles from './BartenderPortal.module.css'; // Reusing some base styling classes if needed
 
 const PageWrapper: React.FC<{ title: string, children: React.ReactNode }> = ({ title, children }) => (
   <Layout>

@@ -74,6 +74,12 @@ const EquipmentManager: React.FC = () => {
     }
   };
 
+  const removeImage = (index: number) => {
+    const newImages = [...formData.images];
+    newImages[index] = '';
+    setFormData({ ...formData, images: newImages });
+  };
+
   const openEditModal = (equipment: Equipment) => {
     setEditingId(equipment.id);
     setFormData({

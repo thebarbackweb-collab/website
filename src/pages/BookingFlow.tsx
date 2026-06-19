@@ -152,8 +152,6 @@ Please let me know the availability and estimated quote.`;
     }
   };
 
-  const today = new Date().toISOString().split('T')[0];
-
   if (loading) {
     return <Layout><div className="container" style={{ padding: '6rem 1.5rem', textAlign: 'center' }}>Loading booking engine...</div></Layout>;
   }

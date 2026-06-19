@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, Check, Camera } from 'lucide-react';
+import { ChevronRight, ChevronLeft, Check } from 'lucide-react';
 import Layout from '../components/layout/Layout';
-import Button from '../components/ui/Button';
 import ImageUpload from '../components/ui/ImageUpload';
 import { createBartender } from '../services/firebase/bartenders';
 import { registerUser } from '../services/firebase/auth';
@@ -49,11 +48,6 @@ const PartnerRegistration: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selected = Array.from(e.target.selectedOptions, option => option.value);
-    setFormData(prev => ({ ...prev, languages: selected }));
   };
 
   const nextStep = () => setStep(prev => Math.min(prev + 1, 6));
@@ -293,7 +287,7 @@ const PartnerRegistration: React.FC = () => {
             <p className={styles.stepDesc}>Upload a professional, clean headshot. (Max 5MB)</p>
             <div className={styles.uploadWrapper}>
               <ImageUpload 
-                folder="profile-images"
+                imageType="profile"
                 onUploadSuccess={(url) => setFormData(prev => ({ ...prev, profileImage: url }))}
                 label="Upload Profile Photo"
               />

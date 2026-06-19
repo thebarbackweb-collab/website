@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, MapPin, Filter } from 'lucide-react';
+import { MapPin, Filter } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import BartenderCard from '../components/ui/BartenderCard';
 import Button from '../components/ui/Button';
@@ -12,7 +12,7 @@ const Browse: React.FC = () => {
   
   // Filters
   const [cityFilter, setCityFilter] = useState('');
-  const [occasionFilter, setOccasionFilter] = useState('');
+  const [occasionFilter] = useState('');
 
   useEffect(() => {
     // Basic fetch - in a real app with more data, we would use Firestore queries
