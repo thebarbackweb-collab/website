@@ -73,6 +73,21 @@ const Home: React.FC = () => {
           </p>
 
           {/* Banner & CTAs Moved Below Hero */}
+          <div style={{ maxWidth: '800px', margin: '0 auto 3rem' }}>
+            <BannerCarousel />
+            
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+              <Button size="md" onClick={() => navigate('/browse')}>
+                Find Bartenders
+              </Button>
+              <Button size="md" variant="secondary" onClick={() => navigate('/rentals')}>
+                Rent Equipments
+              </Button>
+              <Button size="md" variant="secondary" onClick={() => navigate('/partner')}>
+                Become a Partner
+              </Button>
+            </div>
+          </div>
 
           {/* Trust Stats */}
           <motion.div 
@@ -101,24 +116,7 @@ const Home: React.FC = () => {
         </motion.div>
       </section>
 
-      {/* Banner Ad Carousel and Main CTAs */}
-      <section className="container" style={{ padding: '2rem 1.5rem 4rem' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <BannerCarousel />
-          
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap' }}>
-            <Button size="lg" onClick={() => navigate('/browse')}>
-              Find Bartenders
-            </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')}>
-              Rent Equipments
-            </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')}>
-              Become a Partner
-            </Button>
-          </div>
-        </div>
-      </section>
+
 
       {/* Featured Bartenders Section */}
       <section className="container" style={{ padding: '6rem 1.5rem' }}>
