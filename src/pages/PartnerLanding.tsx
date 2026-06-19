@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Button from '../components/ui/Button';
-import { ShieldCheck, UserCheck, CreditCard, Camera } from 'lucide-react';
+import { ShieldCheck, UserCheck } from 'lucide-react';
 
 const PartnerLanding: React.FC = () => {
   const navigate = useNavigate();

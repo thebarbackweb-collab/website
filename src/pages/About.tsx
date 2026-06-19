@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/layout/Layout';
-import { ShieldCheck, Star, Users, MapPin } from 'lucide-react';
+import { ShieldCheck, Star, MapPin } from 'lucide-react';
 
 const About: React.FC = () => {
   return (
