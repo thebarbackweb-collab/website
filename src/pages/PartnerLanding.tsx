@@ -50,23 +50,6 @@ const PartnerLanding: React.FC = () => {
 
           {/* Step 2 & 3 */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '3rem', alignItems: 'center' }}>
-            <div className="glass-panel" style={{ padding: '3rem', background: 'rgba(0,0,0,0.02)', order: 2 }}>
-              <h4 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '1.5rem', textAlign: 'center' }}>Required Documents</h4>
-              <ul style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', listStyle: 'none', padding: 0 }}>
-                {[
-                  'Aadhaar Card',
-                  'PAN Card',
-                  'Bank Account & IFSC',
-                  'UPI ID for Payments',
-                  'Experience Certificate',
-                  'Clear Profile Photo'
-                ].map((doc, idx) => (
-                  <li key={idx} style={{ background: 'var(--color-bg-elevated)', padding: '1rem', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.05)', display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', fontWeight: 500 }}>
-                    <ShieldCheck size={18} className="text-gold" /> {doc}
-                  </li>
-                ))}
-              </ul>
-            </div>
             <div style={{ order: 1 }}>
               <div style={{ display: 'inline-block', background: 'rgba(0,0,0,0.05)', color: 'var(--color-text)', padding: '0.5rem 1rem', borderRadius: '50px', fontWeight: 600, fontSize: '0.875rem', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '1px' }}>
                 Step 02 & 03
