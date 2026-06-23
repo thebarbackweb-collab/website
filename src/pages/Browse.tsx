@@ -16,7 +16,9 @@ const Browse: React.FC = () => {
   
   // Filters
   const [cityFilter, setCityFilter] = useState('');
+  const [stateFilter, setStateFilter] = useState('');
   const [occasionFilter] = useState('');
+  const [availableStates, setAvailableStates] = useState<string[]>([]);
 
   useEffect(() => {
     // Basic fetch - in a real app with more data, we would use Firestore queries
@@ -28,6 +30,14 @@ const Browse: React.FC = () => {
         
         // Hide banned/unverified bartenders
         let filtered = data.filter(b => b.verified);
+        
+        // Compute available states
+        const states = Array.from(new Set(filtered.map(b => b.state).filter(Boolean)));
+        setAvailableStates(states.sort());
+
+        if (stateFilter) {
+          filtered = filtered.filter(b => b.state?.toLowerCase() === stateFilter.trim().toLowerCase());
+        }
         
         if (cityFilter) {
           filtered = filtered.filter(b => b.city.toLowerCase().includes(cityFilter.trim().toLowerCase()));
@@ -50,7 +60,7 @@ const Browse: React.FC = () => {
     };
 
     fetchBartenders();
-  }, [cityFilter, occasionFilter]);
+  }, [cityFilter, stateFilter, occasionFilter]);
 
   return (
     <Layout>
@@ -64,10 +74,17 @@ const Browse: React.FC = () => {
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
           <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '200px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <MapPin size={20} className="text-gold" style={{ marginRight: '0.5rem' }} />
-            <select style={{ background: 'transparent', border: 'none', color: 'var(--color-text)', width: '100%', outline: 'none', appearance: 'none' }}>
-              <option value="">Select State</option>
-              <option value="Karnataka">Karnataka</option>
-              <option value="Maharashtra">Maharashtra</option>
+            <select 
+              value={stateFilter}
+              onChange={(e) => setStateFilter(e.target.value)}
+              style={{ background: 'transparent', border: 'none', color: 'var(--color-text)', width: '100%', outline: 'none', appearance: 'none' }}
+            >
+              <option value="" style={{ background: 'var(--color-bg-elevated)', color: 'var(--color-text)' }}>Select State</option>
+              {availableStates.map(state => (
+                <option key={state} value={state} style={{ background: 'var(--color-bg-elevated)', color: 'var(--color-text)' }}>
+                  {state}
+                </option>
+              ))}
             </select>
           </div>
 
