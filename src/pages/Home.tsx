@@ -108,14 +108,14 @@ const Home: React.FC = () => {
           <h1 className={`${styles.title} text-gradient-gold`} style={{ fontSize: '3.5rem' }}>
             Hire Professional Bartender Services in Bangalore
           </h1>
-          <div className={styles.subtitle} style={{ maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '1rem', alignItems: 'center' }}>
-            <p style={{ fontSize: 'clamp(1.2rem, 3vw, 1.8rem)', color: 'var(--color-text)', margin: 0, fontWeight: 500 }}>
+          <div className={styles.subtitle} style={{ maxWidth: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', marginBottom: '2.5rem' }}>
+            <p style={{ fontSize: '1.5rem', color: 'var(--color-text)', margin: 0, fontWeight: 400 }}>
               Looking to hire a professional bartender for your next event?
             </p>
-            <p style={{ fontSize: 'clamp(1rem, 2vw, 1.25rem)', margin: 0, maxWidth: '800px', lineHeight: '1.6' }}>
+            <p style={{ fontSize: '1.125rem', color: 'var(--color-text-muted)', margin: 0, maxWidth: '800px', lineHeight: '1.6' }}>
               We provide trained, presentable, and experienced bartenders for House Parties, Bachelor Parties, Birthday Parties, and Outstation Travellers Parties across Bangalore.
             </p>
-            <p style={{ fontSize: 'clamp(0.875rem, 1.5vw, 1rem)', margin: 0, maxWidth: '700px', lineHeight: '1.6', opacity: 0.8 }}>
+            <p style={{ fontSize: '1rem', color: 'var(--color-text-muted)', margin: 0, maxWidth: '700px', lineHeight: '1.6' }}>
               From classic cocktails and mocktails to live bar service, we make your event smooth, stylish, and stress-free with a premium bar experience.
             </p>
           </div>
