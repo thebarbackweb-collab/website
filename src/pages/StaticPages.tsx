@@ -15,7 +15,11 @@ const PageWrapper: React.FC<{ title: string, children: React.ReactNode }> = ({ t
 
 export const Cities = () => (
   <PageWrapper title="Cities We Serve">
-    <p>Currently, we serve exclusively in Bangalore.</p>
+    <div style={{ textAlign: 'center', padding: '3rem 0' }}>
+      <p style={{ fontSize: '2.5rem', color: 'var(--color-primary)', fontFamily: 'var(--font-serif)', lineHeight: '1.4' }}>
+        Currently, we serve exclusively in Bangalore.
+      </p>
+    </div>
   </PageWrapper>
 );
 
