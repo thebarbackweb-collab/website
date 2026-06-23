@@ -146,21 +146,32 @@ const Home: React.FC = () => {
             style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'left', background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(212, 175, 55, 0.2)', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}
           >
             <h3 style={{ fontSize: '1.75rem', marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center', fontFamily: 'var(--font-serif)' }}>Why Choose Our Bartender Services?</h3>
-            <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem' }}>
-              {[
-                "Professionally trained bartenders",
-                "Cocktail & Mocktail specialists",
-                "Mobile bar setup available",
-                "Hygienic and presentable staff",
-                "On-time arrival and smooth service",
-                "Suitable for home parties",
-                "Hourly / Half-Day / Full-Day / Weekend bartender services"
-              ].map((point, idx) => (
-                <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '1.1rem', color: '#F8FAFC', lineHeight: '1.4' }}>
-                  <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0, marginTop: '2px' }} /> {point}
-                </li>
-              ))}
-            </ul>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem' }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem', flex: '1 1 300px' }}>
+                {[
+                  "Professionally trained bartenders",
+                  "Mobile bar setup available",
+                  "On-time arrival and smooth service"
+                ].map((point, idx) => (
+                  <li key={`left-${idx}`} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '1.1rem', color: '#F8FAFC', lineHeight: '1.4' }}>
+                    <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0, marginTop: '2px' }} /> {point}
+                  </li>
+                ))}
+              </ul>
+              
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem', flex: '1 1 300px' }}>
+                {[
+                  "Cocktail & Mocktail specialists",
+                  "Hygienic and presentable staff",
+                  "Suitable for home parties",
+                  "Hourly / Half-Day / Full-Day / Weekend bartender services"
+                ].map((point, idx) => (
+                  <li key={`right-${idx}`} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '1.1rem', color: '#F8FAFC', lineHeight: '1.4' }}>
+                    <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0, marginTop: '2px' }} /> {point}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </motion.div>
         </motion.div>
       </section>
