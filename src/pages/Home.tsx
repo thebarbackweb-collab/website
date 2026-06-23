@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
@@ -7,8 +7,9 @@ import BartenderCard from '../components/ui/BartenderCard';
 import CityCard from '../components/ui/CityCard';
 import OccasionCard from '../components/ui/OccasionCard';
 import BannerCarousel from '../components/ui/BannerCarousel';
+import ReviewCarousel from '../components/ui/ReviewCarousel';
 import { useFeaturedBartenders } from '../hooks/useFeaturedBartenders';
-import { GlassWater, Heart, Music, Wine, Cake, Users, Home as HomeIcon, Gem, Plane } from 'lucide-react';
+import { Wine, Cake, Home as HomeIcon, Plane, Play, Pause, CheckCircle2 } from 'lucide-react';
 import styles from './Home.module.css';
 
 const TOP_CITIES = [
@@ -16,21 +17,28 @@ const TOP_CITIES = [
 ];
 
 const OCCASIONS = [
-  { title: 'Wedding', icon: <Heart size={24} /> },
-  { title: 'Reception', icon: <Users size={24} /> },
-  { title: 'Cocktail Party', icon: <GlassWater size={24} /> },
+  { title: 'House Party', icon: <HomeIcon size={24} /> },
   { title: 'Bachelor Party', icon: <Wine size={24} /> },
   { title: 'Birthday Party', icon: <Cake size={24} /> },
-  { title: 'Corporate Event', icon: <Users size={24} /> },
-  { title: 'House Party', icon: <HomeIcon size={24} /> },
-  { title: 'Private Gathering', icon: <Music size={24} /> },
-  { title: 'Luxury Event', icon: <Gem size={24} /> },
-  { title: 'Destination Wedding', icon: <Plane size={24} /> },
+  { title: 'Outstation Travellers Party', icon: <Plane size={24} /> },
 ];
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const heroRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
   
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -44,6 +52,38 @@ const Home: React.FC = () => {
 
   return (
     <Layout>
+      {/* Background Music Audio */}
+      <audio ref={audioRef} loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
+      </audio>
+
+      {/* Music Toggle Floating Button */}
+      <button 
+        onClick={toggleMusic}
+        style={{
+          position: 'fixed',
+          bottom: '2rem',
+          right: '2rem',
+          zIndex: 999,
+          background: 'var(--color-primary)',
+          color: '#000',
+          border: 'none',
+          borderRadius: '50%',
+          width: '60px',
+          height: '60px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: '0 4px 15px rgba(212, 175, 55, 0.4)',
+          cursor: 'pointer',
+          transition: 'transform 0.3s ease'
+        }}
+        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+      >
+        {isPlaying ? <Pause size={28} /> : <Play size={28} style={{ marginLeft: '4px' }} />}
+      </button>
+
       {/* Parallax Hero Section */}
       <section ref={heroRef} className={styles.heroSection}>
         <motion.div 
@@ -65,11 +105,13 @@ const Home: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          <h1 className={`${styles.title} text-gradient-gold`}>
-            Premium Bartending Marketplace in Bangalore
+          <h1 className={`${styles.title} text-gradient-gold`} style={{ fontSize: '3.5rem' }}>
+            Hire Professional Bartender Services in Bangalore
           </h1>
-          <p className={styles.subtitle}>
-            Book verified professional bartenders for weddings, private parties, corporate events and luxury celebrations in Bangalore.
+          <p className={styles.subtitle} style={{ whiteSpace: 'pre-line', lineHeight: '1.8' }}>
+            Looking to hire a professional bartender for your next event?{'\n'}
+            We provide trained, presentable, and experienced bartenders for House Parties, Bachelor Parties, Birthday Parties, and Outstation Travellers Parties across Bangalore.{'\n\n'}
+            From classic cocktails and mocktails to live bar service, we make your event smooth, stylish, and stress-free with a premium bar experience.
           </p>
 
           {/* Banner & CTAs Moved Below Hero */}
@@ -80,8 +122,11 @@ const Home: React.FC = () => {
               <Button size="md" onClick={() => navigate('/browse')}>
                 Find Bartenders
               </Button>
+              <Button size="md" variant="secondary" onClick={() => navigate('/ingredients')}>
+                Ingredients
+              </Button>
               <Button size="md" variant="secondary" onClick={() => navigate('/rentals')}>
-                Rent Equipments
+                Rent Bar Equipments
               </Button>
               <Button size="md" variant="secondary" onClick={() => navigate('/partner')}>
                 Become a Partner
@@ -91,27 +136,27 @@ const Home: React.FC = () => {
 
           {/* Trust Stats */}
           <motion.div 
-            className={styles.statsSection}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
+            style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'left', background: 'rgba(15, 23, 42, 0.7)', backdropFilter: 'blur(10px)', padding: '2.5rem', borderRadius: '16px', border: '1px solid rgba(212, 175, 55, 0.2)', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.5)' }}
           >
-            <div className={`glass ${styles.statCard}`}>
-              <span className={styles.statValue}>1000+</span>
-              <span className={styles.statLabel}>Bartenders</span>
-            </div>
-            <div className={`glass ${styles.statCard}`}>
-              <span className={styles.statValue}>50+</span>
-              <span className={styles.statLabel}>Cities</span>
-            </div>
-            <div className={`glass ${styles.statCard}`}>
-              <span className={styles.statValue}>10k+</span>
-              <span className={styles.statLabel}>Events Served</span>
-            </div>
-            <div className={`glass ${styles.statCard}`}>
-              <span className={styles.statValue}>100%</span>
-              <span className={styles.statLabel}>Verified Pros</span>
-            </div>
+            <h3 style={{ fontSize: '1.75rem', marginBottom: '1.5rem', color: 'var(--color-primary)', textAlign: 'center', fontFamily: 'var(--font-serif)' }}>Why Choose Our Bartender Services?</h3>
+            <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem' }}>
+              {[
+                "Professionally trained bartenders",
+                "Hourly / Half-Day / Full-Day / Weekend bartender services",
+                "Cocktail & Mocktail specialists",
+                "Mobile bar setup available",
+                "Hygienic and presentable staff",
+                "On-time arrival and smooth service",
+                "Suitable for home parties"
+              ].map((point, idx) => (
+                <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '1.1rem', color: '#F8FAFC', lineHeight: '1.4' }}>
+                  <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0, marginTop: '2px' }} /> {point}
+                </li>
+              ))}
+            </ul>
           </motion.div>
         </motion.div>
       </section>
@@ -171,6 +216,16 @@ const Home: React.FC = () => {
             <OccasionCard key={occasion.title} title={occasion.title} icon={occasion.icon} />
           ))}
         </div>
+      </section>
+
+      {/* Customer Reviews Section */}
+      <section className="container" style={{ padding: '0 1.5rem 6rem' }}>
+        <h2 style={{ textAlign: 'center', fontSize: '2.5rem', marginBottom: '1rem' }}>What Our Clients Say</h2>
+        <p style={{ textAlign: 'center', color: 'var(--color-text-muted)', marginBottom: '3rem' }}>
+          Real experiences from people who hired our premium bartenders.
+        </p>
+        
+        <ReviewCarousel />
       </section>
 
       {/* How It Works Section */}

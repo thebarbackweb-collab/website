@@ -26,13 +26,6 @@ const BartenderCard: React.FC<BartenderCardProps> = ({ bartender }) => {
     }
   };
 
-  // Get lowest price package for "Starting From"
-  const getStartingPrice = () => {
-    if (!bartender.pricing || Object.keys(bartender.pricing).length === 0) return 'Custom';
-    const prices = Object.values(bartender.pricing).map((p: any) => typeof p.price === 'number' ? p.price : 0).filter(p => p > 0);
-    if (prices.length === 0) return 'Custom';
-    return `₹${Math.min(...prices).toLocaleString('en-IN')}`;
-  };
 
   return (
     <div className={styles.card}>
@@ -76,8 +69,7 @@ const BartenderCard: React.FC<BartenderCardProps> = ({ bartender }) => {
 
         <div className={styles.footer}>
           <div>
-            <div className={styles.priceLabel}>Starting from</div>
-            <div className={styles.priceValue}>{getStartingPrice()}</div>
+            <div className={styles.priceLabel} style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-text)' }}>Starting from ₹5,000 for a full-day service</div>
           </div>
           <Button size="sm" onClick={() => navigate(`/bartender/${bartender.city.toLowerCase()}/${bartender.slug}`)}>
             View Profile

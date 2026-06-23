@@ -22,6 +22,18 @@
   --shadow-glow: 0 0 20px rgba(212, 175, 55, 0.2);
   
   --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --color-border: rgba(255, 255, 255, 0.1);
+}
+
+.light-theme-override {
+  --color-bg: #FDFBF7;
+  --color-bg-elevated: #FFFFFF;
+  --color-text: #2D3748;
+  --color-text-muted: #718096;
+  --color-border: rgba(0, 0, 0, 0.1);
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
 }
 
 * {

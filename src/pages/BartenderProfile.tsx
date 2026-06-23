@@ -44,12 +44,6 @@ const BartenderProfile: React.FC = () => {
     );
   }
 
-  const getStartingPrice = () => {
-    if (!bartender.pricing || Object.keys(bartender.pricing).length === 0) return 'Custom';
-    const prices = Object.values(bartender.pricing).map((p: any) => typeof p.price === 'number' ? p.price : 0).filter(p => p > 0);
-    if (prices.length === 0) return 'Custom';
-    return `₹${Math.min(...prices).toLocaleString('en-IN')}`;
-  };
 
   const handleBookingStart = () => {
     // Navigate to booking flow and pass bartender info
@@ -58,6 +52,7 @@ const BartenderProfile: React.FC = () => {
   };
 
   return (
+    <div className="light-theme-override">
     <Layout>
       {/* Dynamic SEO Title - In a real app use React Helmet */}
       <title>THEBARBACK | {bartender.name}</title>
@@ -107,13 +102,13 @@ const BartenderProfile: React.FC = () => {
               
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                 <div>
-                  <h3 style={{ fontSize: '1rem', color: 'white', marginBottom: '0.5rem' }}>Languages</h3>
+                  <h3 style={{ fontSize: '1rem', color: 'var(--color-text)', marginBottom: '0.5rem' }}>Languages</h3>
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     {bartender.languages?.map(lang => <Badge key={lang} variant="outline">{lang}</Badge>) || <span style={{color: 'var(--color-text-muted)'}}>Not specified</span>}
                   </div>
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '1rem', color: 'white', marginBottom: '0.5rem' }}>Specializations</h3>
+                  <h3 style={{ fontSize: '1rem', color: 'var(--color-text)', marginBottom: '0.5rem' }}>Specializations</h3>
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                     {bartender.specializations?.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>) || <span style={{color: 'var(--color-text-muted)'}}>Not specified</span>}
                   </div>
@@ -133,6 +128,31 @@ const BartenderProfile: React.FC = () => {
               </div>
             )}
 
+            {/* Reviews Section */}
+            <div className={styles.section}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}>
+                <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', margin: 0 }}>Customer Reviews</h2>
+                <Button size="sm" variant="outline" onClick={() => alert('Review functionality will be implemented with backend integration.')}>Rate this Bartender</Button>
+              </div>
+              <div style={{ padding: '1.5rem', background: 'var(--color-bg)', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150" alt="Reviewer" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
+                  <div>
+                    <h4 style={{ margin: 0, fontSize: '1rem', color: 'var(--color-text)' }}>Rahul Khanna</h4>
+                    <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
+                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
+                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
+                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
+                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
+                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
+                    </div>
+                  </div>
+                </div>
+                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.95rem', fontStyle: 'italic', margin: 0 }}>
+                  "{bartender.name} was incredibly professional and made our house party a huge hit! The cocktails were top-notch."
+                </p>
+              </div>
+            </div>
 
           </div>
 
@@ -141,9 +161,9 @@ const BartenderProfile: React.FC = () => {
             <div className={styles.stickySidebar}>
               <div className={styles.bookingCard}>
                 <div className={styles.bookingPrice}>
-                  Starting from {getStartingPrice()}
+                  Starting from ₹5,000
                 </div>
-                <div className={styles.bookingLabel}>Contact this bartender to discuss your event and get a quote.</div>
+                <div className={styles.bookingLabel}>for a full-day service. Contact to discuss your event and get a quote.</div>
                 
                 <Button size="lg" style={{ width: '100%', marginBottom: '1rem' }} onClick={handleBookingStart}>
                   Book / Enquire Now
@@ -160,6 +180,7 @@ const BartenderProfile: React.FC = () => {
       </div>
 
     </Layout>
+    </div>
   );
 };
 

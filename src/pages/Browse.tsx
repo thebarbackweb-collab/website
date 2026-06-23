@@ -3,7 +3,7 @@ import { MapPin, Filter } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import BartenderCard from '../components/ui/BartenderCard';
 import Button from '../components/ui/Button';
-import BannerCarousel from '../components/ui/BannerCarousel';
+
 import { useNavigate } from 'react-router-dom';
 import { getDocuments } from '../services/firebase/firestore';
 import type { Bartender } from '../types';
@@ -52,30 +52,37 @@ const Browse: React.FC = () => {
   }, [cityFilter, occasionFilter]);
 
   return (
-    <Layout>
-      <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-        
-        <div style={{ marginBottom: '3rem', maxWidth: '1000px', margin: '0 auto 3rem' }}>
-          <BannerCarousel />
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap' }}>
+    <div className="light-theme-override">
+      <Layout>
+        <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
+          
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
             <Button size="lg" onClick={() => navigate('/browse')}>
               Find Bartenders
             </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')}>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')} style={{ color: '#000', borderColor: '#000' }}>
               Rent Equipments
             </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')}>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')} style={{ color: '#000', borderColor: '#000' }}>
               Become a Partner
             </Button>
           </div>
-        </div>
 
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '2rem' }}>
-          Find Professional Bartenders
-        </h1>
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '2rem', color: '#000' }}>
+            Find Professional Bartenders
+          </h1>
 
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
-          <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '250px' }}>
+          <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '200px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)' }}>
+            <MapPin size={20} className="text-gold" style={{ marginRight: '0.5rem' }} />
+            <select style={{ background: 'transparent', border: 'none', color: 'var(--color-text)', width: '100%', outline: 'none', appearance: 'none' }}>
+              <option value="">Select State</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Maharashtra">Maharashtra</option>
+            </select>
+          </div>
+
+          <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '200px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)' }}>
             <MapPin size={20} className="text-gold" style={{ marginRight: '0.5rem' }} />
             <input 
               type="text" 
@@ -104,7 +111,8 @@ const Browse: React.FC = () => {
           </div>
         )}
       </div>
-    </Layout>
+      </Layout>
+    </div>
   );
 };
 

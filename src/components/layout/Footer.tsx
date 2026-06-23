@@ -54,7 +54,13 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className={styles.bottom}>
+        <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+          <p style={{ fontSize: '0.75rem', color: 'var(--color-text-muted)', lineHeight: '1.6', opacity: 0.6 }}>
+            <strong>Popular Searches:</strong> Hire Bartender for Party | Hire Bartender Near You | Professional Bartender Services | Bartender for House Party | Home Bartending Service | Private Party Bartender Near Me | Wedding Bar Counter Service | Wedding Cocktail Bartenders | Bartender for Wedding Events | Corporate Cocktail Bar Service | Office Party Bartenders | Professional Event Bartenders | Live Cocktail Counter | Mocktail Bar for Events | Portable Bar Counter on Rent | Bar Counter for Party | Event Bar Setup Rental | Weekend Bartender on Hire | One-Day Bartender Service | Hourly Bartender Booking | Bar Tools & Glassware Rental | Cocktail Equipment on Rent | Party Bar Accessories Rental | Complete Bar Management | End-to-End Bar Solutions | Beverage Service for Events | Fresh Cocktail Making Service | Bartender for Birthday Party | Cocktail Bartender Near Me | Bar Service for Events | Bartender on Rent
+          </p>
+        </div>
+
+        <div className={styles.bottom} style={{ marginTop: '1rem' }}>
           <div className={styles.copyright}>
             &copy; {new Date().getFullYear()} THEBARBACK. All rights reserved.
           </div>
