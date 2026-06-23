@@ -60,7 +60,7 @@ const Browse: React.FC = () => {
               Find Bartenders
             </Button>
             <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')}>
-              Rent Equipments
+              Ingredients & Rent Equipments
             </Button>
             <Button size="lg" variant="secondary" onClick={() => navigate('/partner')}>
               Become a Partner

@@ -124,7 +124,7 @@ const Home: React.FC = () => {
               </Button>
 
               <Button size="md" variant="secondary" onClick={() => navigate('/rentals')}>
-                Rent Bar Equipments
+                Ingredients & Rent Equipments
               </Button>
               <Button size="md" variant="secondary" onClick={() => navigate('/partner')}>
                 Become a Partner
