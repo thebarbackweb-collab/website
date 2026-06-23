@@ -52,28 +52,27 @@ const Browse: React.FC = () => {
   }, [cityFilter, occasionFilter]);
 
   return (
-    <div className="light-theme-override">
-      <Layout>
-        <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
+    <Layout>
+      <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
           
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
             <Button size="lg" onClick={() => navigate('/browse')}>
               Find Bartenders
             </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')} style={{ color: '#000', borderColor: '#000' }}>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')}>
               Rent Equipments
             </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')} style={{ color: '#000', borderColor: '#000' }}>
+            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')}>
               Become a Partner
             </Button>
           </div>
 
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '2rem', color: '#000' }}>
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '2rem' }}>
             Find Professional Bartenders
           </h1>
 
         <div style={{ display: 'flex', gap: '1rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
-          <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '200px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)' }}>
+          <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '200px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <MapPin size={20} className="text-gold" style={{ marginRight: '0.5rem' }} />
             <select style={{ background: 'transparent', border: 'none', color: 'var(--color-text)', width: '100%', outline: 'none', appearance: 'none' }}>
               <option value="">Select State</option>
@@ -82,7 +81,7 @@ const Browse: React.FC = () => {
             </select>
           </div>
 
-          <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '200px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.1)' }}>
+          <div className="glass" style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 1rem', borderRadius: '8px', flex: 1, minWidth: '200px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
             <MapPin size={20} className="text-gold" style={{ marginRight: '0.5rem' }} />
             <input 
               type="text" 
@@ -111,8 +110,7 @@ const Browse: React.FC = () => {
           </div>
         )}
       </div>
-      </Layout>
-    </div>
+    </Layout>
   );
 };
 

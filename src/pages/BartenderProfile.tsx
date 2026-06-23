@@ -52,7 +52,6 @@ const BartenderProfile: React.FC = () => {
   };
 
   return (
-    <div className="light-theme-override">
     <Layout>
       {/* Dynamic SEO Title - In a real app use React Helmet */}
       <title>THEBARBACK | {bartender.name}</title>
@@ -180,7 +179,6 @@ const BartenderProfile: React.FC = () => {
       </div>
 
     </Layout>
-    </div>
   );
 };
 

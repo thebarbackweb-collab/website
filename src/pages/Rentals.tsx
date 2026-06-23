@@ -52,7 +52,6 @@ const Rentals: React.FC = () => {
   };
 
   return (
-    <div className="light-theme-override">
     <Layout>
       {/* Hero Section */}
       <section style={{ padding: '6rem 1.5rem 4rem', textAlign: 'center', background: 'var(--color-bg)' }}>
@@ -61,10 +60,10 @@ const Rentals: React.FC = () => {
             <Package size={40} className="text-gold" />
           </div>
           <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '3.5rem', marginBottom: '1rem', color: 'var(--color-primary)' }}>
-            Ingredients & Bar Equipments
+            Bar Equipments
           </h1>
           <p style={{ fontSize: '1.25rem', color: 'var(--color-text-muted)', maxWidth: '600px', margin: '0 auto' }}>
-            Elevate your event with our premium selection of fresh ingredients, professional bar counters, glassware, and mixology tools.
+            Elevate your event with our premium selection of professional bar counters, glassware, and mixology tools.
           </p>
           <div style={{ marginTop: '2rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(212, 175, 55, 0.1)', border: '1px solid rgba(212, 175, 55, 0.3)', padding: '0.5rem 1rem', borderRadius: '50px', color: 'var(--color-primary)', fontSize: '0.875rem', fontWeight: 600 }}>
             <MapPin size={16} /> Currently available only in Bangalore
@@ -235,7 +234,6 @@ const Rentals: React.FC = () => {
         </div>
       )}
     </Layout>
-    </div>
   );
 };
 

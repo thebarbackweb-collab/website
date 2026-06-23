@@ -122,9 +122,7 @@ const Home: React.FC = () => {
               <Button size="md" onClick={() => navigate('/browse')}>
                 Find Bartenders
               </Button>
-              <Button size="md" variant="secondary" onClick={() => navigate('/ingredients')}>
-                Ingredients
-              </Button>
+
               <Button size="md" variant="secondary" onClick={() => navigate('/rentals')}>
                 Rent Bar Equipments
               </Button>
