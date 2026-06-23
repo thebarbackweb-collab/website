@@ -57,13 +57,7 @@ const Browse: React.FC = () => {
       <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
           <BannerCarousel />
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
-            <Button size="lg" onClick={() => navigate('/browse')}>
-              Find Bartenders
-            </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/rentals')}>
-              Ingredients & Rent Equipments
-            </Button>
-            <Button size="lg" variant="secondary" onClick={() => navigate('/partner')}>
+            <Button size="lg" variant="primary" onClick={() => navigate('/partner')}>
               Become a Partner
             </Button>
           </div>
