@@ -209,9 +209,11 @@ const Home: React.FC = () => {
           From intimate house parties to grand destination weddings, we have the perfect bartender for every event.
         </p>
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '1.5rem' }}>
           {OCCASIONS.map(occasion => (
-            <OccasionCard key={occasion.title} title={occasion.title} icon={occasion.icon} />
+            <div key={occasion.title} style={{ flex: '1 1 200px', maxWidth: '280px' }}>
+              <OccasionCard title={occasion.title} icon={occasion.icon} />
+            </div>
           ))}
         </div>
       </section>
