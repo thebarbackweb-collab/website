@@ -19,7 +19,7 @@ const About: React.FC = () => {
             Born in the vibrant city of Bangalore, THEBARBACK was created to bridge the gap between hosts looking for exceptional beverage experiences and highly skilled mixologists looking for their next stage. 
           </p>
           <p style={{ color: 'var(--color-text-muted)', lineHeight: 1.8 }}>
-            Whether it's an intimate house party, a grand corporate event, or a luxury wedding, we provide verified, professional bartenders and top-of-the-line rental equipment to elevate your celebration.
+            We provide verified, professional bartenders and top-of-the-line rental equipment for House Parties, Bachelor Parties, Birthday Parties, and Outstation Travellers Parties.
           </p>
         </div>
 
