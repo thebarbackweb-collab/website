@@ -15,8 +15,7 @@ const PageWrapper: React.FC<{ title: string, children: React.ReactNode }> = ({ t
 
 export const Cities = () => (
   <PageWrapper title="Cities We Serve">
-    <p>THEBARBACK is rapidly expanding across India. We currently have premium bartenders available in major metropolitan areas including Bangalore, Mumbai, Delhi NCR, Pune, and Hyderabad.</p>
-    <p>Check back often as we are constantly bringing our premium cocktail experiences to new cities.</p>
+    <p>Currently, we serve exclusively in Bangalore.</p>
   </PageWrapper>
 );
 
