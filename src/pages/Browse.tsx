@@ -56,13 +56,8 @@ const Browse: React.FC = () => {
     <Layout>
       <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
           <BannerCarousel />
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
-            <Button size="lg" variant="primary" onClick={() => navigate('/partner')}>
-              Become a Partner
-            </Button>
-          </div>
 
-          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginBottom: '2rem' }}>
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2.5rem', marginTop: '2.5rem', marginBottom: '2rem' }}>
             Find Professional Bartenders
           </h1>
 
@@ -88,6 +83,12 @@ const Browse: React.FC = () => {
           </div>
 
           <Button variant="outline"><Filter size={20} style={{ marginRight: '0.5rem' }} /> Filters</Button>
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '3rem' }}>
+          <Button size="md" variant="primary" onClick={() => navigate('/partner')}>
+            Become a Partner
+          </Button>
         </div>
 
         {loading ? (
