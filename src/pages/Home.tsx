@@ -152,7 +152,7 @@ const Home: React.FC = () => {
                   "Professionally trained bartenders",
                   "Mobile bar setup available",
                   "On-time arrival and smooth service",
-                  "Hourly / Half-Day / Full-Day / Weekend bartender services"
+                  "Cocktail & Mocktail specialists"
                 ].map((point, idx) => (
                   <li key={`left-${idx}`} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '1.1rem', color: '#F8FAFC', lineHeight: '1.4' }}>
                     <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0, marginTop: '2px' }} /> {point}
@@ -162,9 +162,9 @@ const Home: React.FC = () => {
               
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem', flex: '1 1 300px' }}>
                 {[
-                  "Cocktail & Mocktail specialists",
                   "Hygienic and presentable staff",
-                  "Suitable for home parties"
+                  "Suitable for home parties",
+                  "Hourly / Half-Day / Full-Day / Weekend bartender services"
                 ].map((point, idx) => (
                   <li key={`right-${idx}`} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '1.1rem', color: '#F8FAFC', lineHeight: '1.4' }}>
                     <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0, marginTop: '2px' }} /> {point}
