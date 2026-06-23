@@ -3,6 +3,7 @@ import { MapPin, Filter } from 'lucide-react';
 import Layout from '../components/layout/Layout';
 import BartenderCard from '../components/ui/BartenderCard';
 import Button from '../components/ui/Button';
+import BannerCarousel from '../components/ui/BannerCarousel';
 
 import { useNavigate } from 'react-router-dom';
 import { getDocuments } from '../services/firebase/firestore';
@@ -54,7 +55,7 @@ const Browse: React.FC = () => {
   return (
     <Layout>
       <div className="container" style={{ paddingTop: '2rem', paddingBottom: '4rem' }}>
-          
+          <BannerCarousel />
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', marginBottom: '3rem', flexWrap: 'wrap' }}>
             <Button size="lg" onClick={() => navigate('/browse')}>
               Find Bartenders
