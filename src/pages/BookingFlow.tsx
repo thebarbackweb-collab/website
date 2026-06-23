@@ -183,15 +183,14 @@ Please let me know the availability and estimated quote.`;
                   <label className={styles.label} style={{ fontSize: '1.25rem', color: 'var(--color-text)', fontWeight: 600 }}>Select Occasion *</label>
                   <select name="occasion" value={eventData.occasion} onChange={handleEventChange} className={styles.select}>
                     <option value="">Select...</option>
-                    <option value="Inviting Guests">Inviting Guests</option>
                     <option value="House Party">House Party</option>
-                    <option value="Wedding">Wedding</option>
-                    <option value="Corporate Event">Corporate Event</option>
-                    <option value="Birthday">Birthday</option>
-                    <option value="Anniversary">Anniversary</option>
-                    <option value="Cocktail Party">Cocktail Party</option>
-                    <option value="Others">Others</option>
+                    <option value="Bachelor Party">Bachelor Party</option>
+                    <option value="Birthday Party">Birthday Party</option>
+                    <option value="Outstation Travellers Party">Outstation Travellers Party</option>
                   </select>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--color-text-muted)', marginTop: '0.5rem' }}>
+                    For any other occasion, please contact us directly.
+                  </p>
                 </div>
 
                 {/* 2. Date */}
