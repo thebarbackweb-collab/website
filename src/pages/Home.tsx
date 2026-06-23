@@ -143,12 +143,12 @@ const Home: React.FC = () => {
             <ul style={{ listStyle: 'none', padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem' }}>
               {[
                 "Professionally trained bartenders",
-                "Hourly / Half-Day / Full-Day / Weekend bartender services",
                 "Cocktail & Mocktail specialists",
                 "Mobile bar setup available",
                 "Hygienic and presentable staff",
                 "On-time arrival and smooth service",
-                "Suitable for home parties"
+                "Suitable for home parties",
+                "Hourly / Half-Day / Full-Day / Weekend bartender services"
               ].map((point, idx) => (
                 <li key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', fontSize: '1.1rem', color: '#F8FAFC', lineHeight: '1.4' }}>
                   <CheckCircle2 size={24} className="text-gold" style={{ flexShrink: 0, marginTop: '2px' }} /> {point}
