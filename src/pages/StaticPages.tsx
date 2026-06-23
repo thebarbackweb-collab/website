@@ -27,12 +27,12 @@ export const Occasions = () => (
   <PageWrapper title="Occasions">
     <p>Our professional bartenders are equipped to elevate any event, including:</p>
     <ul style={{ listStyleType: 'disc', paddingLeft: '2rem', marginTop: '1rem' }}>
-      <li>Weddings & Receptions</li>
-      <li>Corporate Galas & Networking Events</li>
-      <li>Private House Parties</li>
-      <li>Birthdays & Anniversaries</li>
-      <li>Pop-up Events & Brand Launches</li>
+      <li>House Party</li>
+      <li>Bachelor Party</li>
+      <li>Birthday Party</li>
+      <li>Outstation Travellers Party</li>
     </ul>
+    <p style={{ marginTop: '2rem' }}>For any other occasion, please contact us directly.</p>
   </PageWrapper>
 );
 
