@@ -32,12 +32,14 @@ const BannerCarousel: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    if (banners.length <= 1) return;
+    
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
     }, 5000); // Auto-scroll every 5 seconds
 
     return () => clearInterval(interval);
-  }, []);
+  }, [banners.length]);
 
   const handlePrev = () => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? banners.length - 1 : prevIndex - 1));
@@ -80,41 +82,47 @@ const BannerCarousel: React.FC = () => {
       </div>
 
       {/* Navigation Arrows */}
-      <button 
-        onClick={handlePrev}
-        style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-        aria-label="Previous Banner"
-      >
-        <ChevronLeft size={24} color="#0F172A" />
-      </button>
+      {banners.length > 1 && (
+        <>
+          <button 
+            onClick={handlePrev}
+            style={{ position: 'absolute', top: '50%', left: '1rem', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+            aria-label="Previous Banner"
+          >
+            <ChevronLeft size={24} color="#0F172A" />
+          </button>
 
-      <button 
-        onClick={handleNext}
-        style={{ position: 'absolute', top: '50%', right: '1rem', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-        aria-label="Next Banner"
-      >
-        <ChevronRight size={24} color="#0F172A" />
-      </button>
+          <button 
+            onClick={handleNext}
+            style={{ position: 'absolute', top: '50%', right: '1rem', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+            aria-label="Next Banner"
+          >
+            <ChevronRight size={24} color="#0F172A" />
+          </button>
+        </>
+      )}
 
       {/* Indicators */}
-      <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '0.5rem' }}>
-        {banners.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            style={{
-              width: currentIndex === index ? '24px' : '8px',
-              height: '8px',
-              borderRadius: '4px',
-              background: currentIndex === index ? 'var(--color-primary)' : 'rgba(255,255,255,0.5)',
-              border: 'none',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {banners.length > 1 && (
+        <div style={{ position: 'absolute', bottom: '1rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '0.5rem' }}>
+          {banners.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentIndex(index)}
+              style={{
+                width: currentIndex === index ? '24px' : '8px',
+                height: '8px',
+                borderRadius: '4px',
+                background: currentIndex === index ? 'var(--color-primary)' : 'rgba(255,255,255,0.5)',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
