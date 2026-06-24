@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Trash2, Plus, Loader } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import Button from '../ui/Button';
 import ImageUpload from '../ui/ImageUpload';
 import { getDocument, createDocument } from '../../services/firebase/firestore';
