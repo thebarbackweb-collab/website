@@ -57,7 +57,7 @@ const AdminDashboard: React.FC = () => {
               padding: '0.5rem 1rem'
             }}
           >
-            Rental Equipments
+            Ingredients & Rent Equipment
           </button>
           <button 
             onClick={() => setActiveTab('banners')}

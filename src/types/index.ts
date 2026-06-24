@@ -79,7 +79,8 @@ export interface Equipment {
   title: string;
   description: string;
   images: string[];
-  pricingType: 'per hour' | 'per day';
+  category?: 'Rent' | 'Sales';
+  pricingType: 'per hour' | 'per day' | 'per unit';
   price: number;
   status: 'available' | 'rented';
   createdAt: number;

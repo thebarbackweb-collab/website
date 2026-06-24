@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { getAllBartenders, updateBartender, deleteBartender } from '../../services/firebase/bartenders';
 import type { Bartender } from '../../types';
 import Button from '../ui/Button';
-import { Trash2, UserX, UserCheck, Eye, X } from 'lucide-react';
+import { Trash2, UserX, UserCheck, Eye, X, Edit } from 'lucide-react';
 
 const BartenderManager: React.FC = () => {
   const [bartenders, setBartenders] = useState<Bartender[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedBartender, setSelectedBartender] = useState<Bartender | null>(null);
+  const [editingBartender, setEditingBartender] = useState<Bartender | null>(null);
+  const [formData, setFormData] = useState<Partial<Bartender>>({});
+  const [isSaving, setIsSaving] = useState(false);
 
   const loadData = async () => {
     setLoading(true);
@@ -99,6 +102,9 @@ const BartenderManager: React.FC = () => {
                 <td style={{ padding: '1rem', textAlign: 'right' }}>
                   <Button variant="ghost" onClick={() => setSelectedBartender(b)} style={{ padding: '0.5rem', marginRight: '0.5rem' }}>
                     <Eye size={18} />
+                  </Button>
+                  <Button variant="ghost" onClick={() => { setEditingBartender(b); setFormData(b); }} style={{ padding: '0.5rem', marginRight: '0.5rem', color: '#60a5fa' }}>
+                    <Edit size={18} />
                   </Button>
                   <Button variant="ghost" onClick={() => handleToggleStatus(b.id, b.availability)} style={{ padding: '0.5rem', marginRight: '0.5rem' }}>
                     {b.availability === 'busy' ? <UserCheck size={18} /> : <UserX size={18} />}
@@ -200,6 +206,93 @@ const BartenderManager: React.FC = () => {
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Edit Modal */}
+      {editingBartender && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+          <div className="glass-panel" style={{ padding: '2.5rem', width: '100%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
+            <button 
+              onClick={() => setEditingBartender(null)}
+              style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', background: 'transparent', border: 'none', color: 'white', cursor: 'pointer' }}
+            >
+              <X size={24} />
+            </button>
+            <h3 style={{ fontSize: '1.5rem', marginBottom: '2rem', fontFamily: 'var(--font-serif)' }}>Edit Bartender Profile</h3>
+            
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setIsSaving(true);
+              try {
+                await updateBartender(editingBartender.id, formData);
+                loadData();
+                setEditingBartender(null);
+              } catch (err) {
+                alert('Failed to update bartender');
+              } finally {
+                setIsSaving(false);
+              }
+            }} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Name</label>
+                  <input required type="text" value={formData.name || ''} onChange={e => setFormData({...formData, name: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Email</label>
+                  <input type="email" value={formData.email || ''} onChange={e => setFormData({...formData, email: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Login Phone</label>
+                  <input type="text" value={formData.loginPhone || ''} onChange={e => setFormData({...formData, loginPhone: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Calling Number</label>
+                  <input type="text" value={formData.callingNumber || ''} onChange={e => setFormData({...formData, callingNumber: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>WhatsApp Number</label>
+                  <input type="text" value={formData.whatsappNumber || ''} onChange={e => setFormData({...formData, whatsappNumber: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Experience (Years)</label>
+                  <input type="number" value={formData.experience || 0} onChange={e => setFormData({...formData, experience: Number(e.target.value)})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>City</label>
+                  <input type="text" value={formData.city || ''} onChange={e => setFormData({...formData, city: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>State</label>
+                  <input type="text" value={formData.state || ''} onChange={e => setFormData({...formData, state: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+                </div>
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Bio</label>
+                <textarea value={formData.bio || ''} onChange={e => setFormData({...formData, bio: e.target.value})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', minHeight: '100px', resize: 'vertical' }} />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Specializations (comma separated)</label>
+                <input type="text" value={(formData.specializations || []).join(', ')} onChange={e => setFormData({...formData, specializations: e.target.value.split(',').map(s=>s.trim()).filter(Boolean)})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Signature Cocktails (comma separated)</label>
+                <input type="text" value={(formData.signatureCocktails || []).join(', ')} onChange={e => setFormData({...formData, signatureCocktails: e.target.value.split(',').map(s=>s.trim()).filter(Boolean)})} style={{ width: '100%', padding: '0.875rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px' }} />
+              </div>
+
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                <Button type="button" variant="ghost" onClick={() => setEditingBartender(null)} style={{ flex: 1 }} disabled={isSaving}>Cancel</Button>
+                <Button type="submit" size="lg" style={{ flex: 2 }} disabled={isSaving}>
+                  {isSaving ? 'Saving...' : 'Save Profile Changes'}
+                </Button>
+              </div>
+            </form>
           </div>
         </div>
       )}

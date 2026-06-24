@@ -15,7 +15,8 @@ const EquipmentManager: React.FC = () => {
     title: '',
     description: '',
     images: [] as string[],
-    pricingType: 'per hour' as 'per hour' | 'per day',
+    category: 'Rent' as 'Rent' | 'Sales',
+    pricingType: 'per hour' as 'per hour' | 'per day' | 'per unit',
     price: 0,
     status: 'available' as 'available' | 'rented'
   });
@@ -86,6 +87,7 @@ const EquipmentManager: React.FC = () => {
       title: equipment.title,
       description: equipment.description || '',
       images: [...equipment.images],
+      category: equipment.category || 'Rent',
       pricingType: equipment.pricingType,
       price: equipment.price,
       status: equipment.status
@@ -95,7 +97,7 @@ const EquipmentManager: React.FC = () => {
 
   const openAddModal = () => {
     setEditingId(null);
-    setFormData({ title: '', description: '', images: [], pricingType: 'per hour', price: 0, status: 'available' });
+    setFormData({ title: '', description: '', images: [], category: 'Rent', pricingType: 'per hour', price: 0, status: 'available' });
     setShowModal(true);
   };
 
@@ -112,7 +114,8 @@ const EquipmentManager: React.FC = () => {
         title: formData.title,
         description: formData.description,
         images: formData.images.filter(img => img), // Remove empties
-        pricingType: formData.pricingType,
+        category: formData.category,
+        pricingType: formData.category === 'Sales' ? 'per unit' : formData.pricingType,
         price: formData.price,
         status: formData.status,
       };
@@ -125,7 +128,7 @@ const EquipmentManager: React.FC = () => {
       
       setShowModal(false);
       setEditingId(null);
-      setFormData({ title: '', description: '', images: [], pricingType: 'per hour', price: 0, status: 'available' });
+      setFormData({ title: '', description: '', images: [], category: 'Rent', pricingType: 'per hour', price: 0, status: 'available' });
       loadData();
     } catch (err) {
       alert("Failed to save equipment");
@@ -139,7 +142,7 @@ const EquipmentManager: React.FC = () => {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h2 style={{ fontSize: '1.5rem' }}>Rental Equipments</h2>
+        <h2 style={{ fontSize: '1.5rem' }}>Ingredients & Rent Equipment</h2>
         <Button onClick={openAddModal}>
           <Plus size={18} style={{ marginRight: '0.5rem' }} /> Add Equipment
         </Button>
@@ -151,6 +154,7 @@ const EquipmentManager: React.FC = () => {
             <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
               <th style={{ padding: '1rem' }}>Title</th>
               <th style={{ padding: '1rem' }}>Pricing</th>
+              <th style={{ padding: '1rem' }}>Category</th>
               <th style={{ padding: '1rem' }}>Status</th>
               <th style={{ padding: '1rem', textAlign: 'right' }}>Actions</th>
             </tr>
@@ -165,6 +169,11 @@ const EquipmentManager: React.FC = () => {
                   </div>
                 </td>
                 <td style={{ padding: '1rem' }}>₹{e.price} {e.pricingType}</td>
+                <td style={{ padding: '1rem' }}>
+                  <span style={{ padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', background: 'rgba(255,255,255,0.1)' }}>
+                    {e.category || 'Rent'}
+                  </span>
+                </td>
                 <td style={{ padding: '1rem' }}>
                   <span style={{ 
                     padding: '0.25rem 0.5rem', 
@@ -202,7 +211,7 @@ const EquipmentManager: React.FC = () => {
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}>
           <div style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', padding: '2.5rem', width: '100%', maxWidth: '600px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
             <h3 style={{ fontSize: '1.5rem', marginBottom: '2rem', fontFamily: 'var(--font-serif)' }}>
-              {editingId ? 'Edit Rental Equipment' : 'Add Rental Equipment'}
+              {editingId ? 'Edit Item' : 'Add Item'}
             </h3>
             <form onSubmit={handleSave} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
               
@@ -264,16 +273,36 @@ const EquipmentManager: React.FC = () => {
               
               <div style={{ display: 'flex', gap: '1rem' }}>
                 <div style={{ flex: 1 }}>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Category <span style={{ color: '#f87171' }}>*</span></label>
+                  <select value={formData.category} onChange={e => {
+                      const cat = e.target.value as 'Rent' | 'Sales';
+                      setFormData({...formData, category: cat, pricingType: cat === 'Sales' ? 'per unit' : 'per hour'});
+                    }} style={{ width: '100%', padding: '0.875rem 1rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', outline: 'none' }}>
+                    <option value="Rent">Rent Equipment</option>
+                    <option value="Sales">Ingredients Sales</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <div style={{ flex: 1 }}>
                   <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Cost Amount (₹) <span style={{ color: '#f87171' }}>*</span></label>
                   <input required type="number" min="0" placeholder="e.g. 1500" value={formData.price || ''} onChange={e => setFormData({...formData, price: Number(e.target.value)})} style={{ width: '100%', padding: '0.875rem 1rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', outline: 'none' }} />
                 </div>
-                <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Pricing Model</label>
-                  <select value={formData.pricingType} onChange={e => setFormData({...formData, pricingType: e.target.value as any})} style={{ width: '100%', padding: '0.875rem 1rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', outline: 'none' }}>
-                    <option value="per hour">Per Hour</option>
-                    <option value="per day">Per Day</option>
-                  </select>
-                </div>
+                {formData.category === 'Rent' ? (
+                  <div style={{ flex: 1 }}>
+                    <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Pricing Model</label>
+                    <select value={formData.pricingType} onChange={e => setFormData({...formData, pricingType: e.target.value as any})} style={{ width: '100%', padding: '0.875rem 1rem', background: '#1f2937', border: '1px solid rgba(255,255,255,0.1)', color: 'white', borderRadius: '8px', outline: 'none' }}>
+                      <option value="per hour">Per Hour</option>
+                      <option value="per day">Per Day</option>
+                    </select>
+                  </div>
+                ) : (
+                  <div style={{ flex: 1 }}>
+                    <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '0.5rem', color: 'var(--color-text-muted)' }}>Pricing Model</label>
+                    <input disabled type="text" value="Per Unit" style={{ width: '100%', padding: '0.875rem 1rem', background: 'rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.05)', color: 'var(--color-text-muted)', borderRadius: '8px', outline: 'none' }} />
+                  </div>
+                )}
               </div>
 
               <div>
@@ -292,7 +321,7 @@ const EquipmentManager: React.FC = () => {
               <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                 <Button type="button" variant="ghost" onClick={() => { setShowModal(false); setEditingId(null); }} style={{ flex: 1 }} disabled={isSaving}>Cancel</Button>
                 <Button type="submit" size="lg" style={{ flex: 2 }} disabled={isSaving}>
-                  {isSaving ? 'Saving...' : (editingId ? 'Save Changes' : 'Add Equipment')}
+                  {isSaving ? 'Saving...' : (editingId ? 'Save Changes' : 'Add Item')}
                 </Button>
               </div>
             </form>
