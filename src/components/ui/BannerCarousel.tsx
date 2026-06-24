@@ -19,8 +19,8 @@ const BannerCarousel: React.FC = () => {
     const fetchBanners = async () => {
       try {
         const docData = await getDocument<{ images: string[] }>('settings', 'banners');
-        if (docData && docData.images && docData.images.length > 0) {
-          setBanners(docData.images);
+        if (docData && docData.images) {
+          setBanners(docData.images.length > 0 ? docData.images : [DEFAULT_BANNERS[0]]);
         }
       } catch (err) {
         console.error('Failed to fetch banners:', err);
