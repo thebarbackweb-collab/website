@@ -25,6 +25,7 @@ export interface Bartender {
   experience: number;
   languages?: string[];
   specializations?: string[];
+  signatureCocktails?: string[];
   pricing: Record<string, any>; // You can structure pricing like packages later
   bio: string;
   profileImage: string;

@@ -99,7 +99,7 @@ const BartenderProfile: React.FC = () => {
                 {bartender.bio}
               </p>
               
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem' }}>
                 <div>
                   <h3 style={{ fontSize: '1rem', color: 'var(--color-text)', marginBottom: '0.5rem' }}>Languages</h3>
                   <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -112,6 +112,14 @@ const BartenderProfile: React.FC = () => {
                     {bartender.specializations?.map(spec => <Badge key={spec} variant="outline">{spec}</Badge>) || <span style={{color: 'var(--color-text-muted)'}}>Not specified</span>}
                   </div>
                 </div>
+                {bartender.signatureCocktails && bartender.signatureCocktails.length > 0 && (
+                  <div>
+                    <h3 style={{ fontSize: '1rem', color: 'var(--color-text)', marginBottom: '0.5rem' }}>Signature Cocktails</h3>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      {bartender.signatureCocktails.map(cocktail => <Badge key={cocktail} variant="outline">{cocktail}</Badge>)}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 

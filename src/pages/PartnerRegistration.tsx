@@ -42,7 +42,8 @@ const PartnerRegistration: React.FC = () => {
     bio: '',
     experience: '0', // Stored as string for slider, parsed on submit
     specialization: '',
-    languages: [] as string[]
+    languages: [] as string[],
+    signatureCocktails: ['', '', '']
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -115,6 +116,7 @@ const PartnerRegistration: React.FC = () => {
         experience: parseInt(formData.experience) || 0,
         languages: formData.languages.length > 0 ? formData.languages : ['English', 'Hindi'],
         specializations: formData.specialization ? formData.specialization.split(',').map(s => s.trim()) : ['Classic Cocktails'],
+        signatureCocktails: formData.signatureCocktails.filter(c => c.trim() !== ''),
         pricing: defaultPricing,
         availability: 'available',
         verified: true,
@@ -236,6 +238,30 @@ const PartnerRegistration: React.FC = () => {
                     style={{ fontSize: '1.25rem' }}
                   />
                 </div>
+
+                <div>
+                  <label style={{ display: 'block', color: 'var(--color-text-muted)', marginBottom: '0.5rem', fontSize: '1rem' }}>
+                    3 Signature Cocktails (Optional)
+                  </label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {[0, 1, 2].map(index => (
+                      <input 
+                        key={index}
+                        type="text" 
+                        value={formData.signatureCocktails[index]} 
+                        onChange={(e) => {
+                          const newCocktails = [...formData.signatureCocktails];
+                          newCocktails[index] = e.target.value;
+                          setFormData(prev => ({ ...prev, signatureCocktails: newCocktails }));
+                        }}
+                        placeholder={`Cocktail ${index + 1} Name`} 
+                        className={styles.largeInput}
+                        style={{ fontSize: '1.1rem', padding: '0.75rem' }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
               </div>
 
             </div>
