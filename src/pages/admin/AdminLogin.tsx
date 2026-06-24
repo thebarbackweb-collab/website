@@ -12,7 +12,7 @@ const AdminLogin: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (email === 'flyggoagency@gmail.com' && password === 'Flyggo@8') {
+    if (email === 'admin@thebarback.com' && password === 'thebarback@9') {
       localStorage.setItem('adminAuth', 'true');
       navigate('/admin/dashboard');
     } else {

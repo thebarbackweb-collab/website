@@ -60,6 +60,7 @@ export interface Review {
   id: string;
   bartenderId: string;
   customerId: string;
+  customerName?: string;
   rating: number;
   review: string;
   createdAt: number;

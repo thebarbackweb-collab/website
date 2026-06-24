@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { MapPin, Star, Award, CheckCircle } from 'lucide-react';
 import { getBartenderBySlug } from '../services/firebase/bartenders';
-import type { Bartender } from '../types';
+import { getDocuments, createDocument, updateDocument } from '../services/firebase/firestore';
+import { where } from 'firebase/firestore';
+import type { Bartender, Review } from '../types';
 import Layout from '../components/layout/Layout';
 import Button from '../components/ui/Button';
 import Badge from '../components/ui/Badge';
@@ -13,6 +15,10 @@ const BartenderProfile: React.FC = () => {
   const navigate = useNavigate();
   const [bartender, setBartender] = useState<Bartender | null>(null);
   const [loading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [newReview, setNewReview] = useState({ name: '', rating: 5, text: '' });
+  const [submittingReview, setSubmittingReview] = useState(false);
 
   useEffect(() => {
     const fetchBartender = async () => {
@@ -20,6 +26,11 @@ const BartenderProfile: React.FC = () => {
       try {
         const data = await getBartenderBySlug(slug);
         setBartender(data);
+        
+        if (data) {
+          const fetchedReviews = await getDocuments<Review>('reviews', [where('bartenderId', '==', data.id)]);
+          setReviews(fetchedReviews.sort((a, b) => b.createdAt - a.createdAt));
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -49,6 +60,45 @@ const BartenderProfile: React.FC = () => {
     // Navigate to booking flow and pass bartender info
     // For now, navigate to a placeholder booking route
     navigate(`/book/${bartender.id}`);
+  };
+
+  const submitReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newReview.name || !newReview.text) return;
+    setSubmittingReview(true);
+
+    try {
+      const reviewId = Date.now().toString();
+      const reviewData: Review = {
+        id: reviewId,
+        bartenderId: bartender.id,
+        customerId: 'guest_' + Math.floor(Math.random() * 10000), // Simple guest ID since no auth
+        customerName: newReview.name,
+        rating: newReview.rating,
+        review: newReview.text,
+        createdAt: Date.now()
+      };
+
+      await createDocument('reviews', reviewId, reviewData);
+      
+      // Update local reviews
+      const updatedReviews = [reviewData, ...reviews];
+      setReviews(updatedReviews);
+      
+      // Update bartender average rating
+      const newAvgRating = updatedReviews.reduce((sum, r) => sum + r.rating, 0) / updatedReviews.length;
+      await updateDocument('bartenders', bartender.id, { rating: newAvgRating });
+      setBartender({ ...bartender, rating: newAvgRating });
+
+      // Reset form
+      setShowReviewForm(false);
+      setNewReview({ name: '', rating: 5, text: '' });
+    } catch (err) {
+      console.error('Error submitting review:', err);
+      alert('Failed to submit review.');
+    } finally {
+      setSubmittingReview(false);
+    }
   };
 
   return (
@@ -138,26 +188,83 @@ const BartenderProfile: React.FC = () => {
             {/* Reviews Section */}
             <div className={styles.section}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.75rem' }}>
-                <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', margin: 0 }}>Customer Reviews</h2>
-                <Button size="sm" variant="outline" onClick={() => alert('Review functionality will be implemented with backend integration.')}>Rate this Bartender</Button>
+                <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.5rem', margin: 0 }}>Customer Reviews ({reviews.length})</h2>
+                <Button size="sm" variant="outline" onClick={() => setShowReviewForm(!showReviewForm)}>
+                  {showReviewForm ? 'Cancel' : 'Rate this Bartender'}
+                </Button>
               </div>
-              <div style={{ padding: '1.5rem', background: 'var(--color-bg)', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
-                  <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150&h=150" alt="Reviewer" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
-                  <div>
-                    <h4 style={{ margin: 0, fontSize: '1rem', color: 'var(--color-text)' }}>Rahul Khanna</h4>
-                    <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
-                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
-                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
-                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
-                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
-                      <Star size={14} fill="var(--color-primary)" color="var(--color-primary)" />
+
+              {showReviewForm && (
+                <div style={{ background: 'var(--color-bg-elevated)', padding: '1.5rem', borderRadius: '12px', marginBottom: '2rem', border: '1px solid var(--color-border)' }}>
+                  <h3 style={{ fontSize: '1.125rem', marginBottom: '1rem', color: 'var(--color-text)' }}>Write a Review</h3>
+                  <form onSubmit={submitReview} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    <div>
+                      <input 
+                        type="text" 
+                        placeholder="Your Name" 
+                        value={newReview.name}
+                        onChange={e => setNewReview({...newReview, name: e.target.value})}
+                        style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', color: 'white' }}
+                        required
+                      />
                     </div>
-                  </div>
+                    <div>
+                      <select 
+                        value={newReview.rating}
+                        onChange={e => setNewReview({...newReview, rating: Number(e.target.value)})}
+                        style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', color: 'white' }}
+                      >
+                        <option value={5}>5 Stars - Excellent</option>
+                        <option value={4}>4 Stars - Very Good</option>
+                        <option value={3}>3 Stars - Average</option>
+                        <option value={2}>2 Stars - Poor</option>
+                        <option value={1}>1 Star - Terrible</option>
+                      </select>
+                    </div>
+                    <div>
+                      <textarea 
+                        placeholder="Share details of your experience..." 
+                        value={newReview.text}
+                        onChange={e => setNewReview({...newReview, text: e.target.value})}
+                        style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', color: 'white', minHeight: '100px', resize: 'vertical' }}
+                        required
+                      />
+                    </div>
+                    <Button type="submit" disabled={submittingReview}>
+                      {submittingReview ? 'Submitting...' : 'Submit Review'}
+                    </Button>
+                  </form>
                 </div>
-                <p style={{ color: 'var(--color-text-muted)', fontSize: '0.95rem', fontStyle: 'italic', margin: 0 }}>
-                  "{bartender.name} was incredibly professional and made our house party a huge hit! The cocktails were top-notch."
-                </p>
+              )}
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {reviews.length === 0 ? (
+                  <p style={{ color: 'var(--color-text-muted)' }}>No reviews yet. Be the first to review {bartender.name}!</p>
+                ) : (
+                  reviews.map((review) => (
+                    <div key={review.id} style={{ padding: '1.5rem', background: 'var(--color-bg)', borderRadius: '12px', border: '1px solid var(--color-border)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                        <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--color-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', color: '#000' }}>
+                          {(review.customerName || review.customerId).charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                          <h4 style={{ margin: 0, fontSize: '1rem', color: 'var(--color-text)' }}>{review.customerName || 'Guest User'}</h4>
+                          <div style={{ display: 'flex', gap: '2px', marginTop: '4px' }}>
+                            {[...Array(5)].map((_, i) => (
+                              <Star key={i} size={14} fill={i < review.rating ? "var(--color-primary)" : "none"} color={i < review.rating ? "var(--color-primary)" : "var(--color-text-muted)"} />
+                            ))}
+                          </div>
+                        </div>
+                        <span style={{ marginLeft: 'auto', fontSize: '0.875rem', color: 'var(--color-text-muted)' }}>
+                          {new Date(review.createdAt).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <p style={{ color: 'var(--color-text-muted)', fontSize: '0.95rem', fontStyle: 'italic', margin: 0, whiteSpace: 'pre-wrap' }}>
+                        "{review.review}"
+                      </p>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 

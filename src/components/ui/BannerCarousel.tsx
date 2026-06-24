@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader } from 'lucide-react';
+import { getDocument } from '../../services/firebase/firestore';
 
-const banners = [
+const DEFAULT_BANNERS = [
   '/images/banners/banner1.png',
   '/images/banners/banner2.png',
   '/images/banners/banner3.png',
@@ -10,7 +11,25 @@ const banners = [
 ];
 
 const BannerCarousel: React.FC = () => {
+  const [banners, setBanners] = useState<string[]>(DEFAULT_BANNERS);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const docData = await getDocument<{ images: string[] }>('settings', 'banners');
+        if (docData && docData.images && docData.images.length > 0) {
+          setBanners(docData.images);
+        }
+      } catch (err) {
+        console.error('Failed to fetch banners:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBanners();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -27,6 +46,14 @@ const BannerCarousel: React.FC = () => {
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % banners.length);
   };
+
+  if (loading) {
+    return (
+      <div style={{ width: '100%', aspectRatio: '21/9', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-bg-elevated)', borderRadius: '12px', border: '1px solid rgba(0,0,0,0.05)' }}>
+        <Loader className="animate-spin text-gold" size={32} />
+      </div>
+    );
+  }
 
   return (
     <div style={{ position: 'relative', width: '100%', overflow: 'hidden', borderRadius: '12px', background: 'var(--color-bg-elevated)', border: '1px solid rgba(0,0,0,0.05)', boxShadow: '0 4px 6px rgba(0,0,0,0.05)' }}>

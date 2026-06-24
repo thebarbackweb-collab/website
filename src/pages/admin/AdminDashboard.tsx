@@ -4,10 +4,11 @@ import Layout from '../../components/layout/Layout';
 import Button from '../../components/ui/Button';
 import BartenderManager from '../../components/admin/BartenderManager';
 import EquipmentManager from '../../components/admin/EquipmentManager';
+import BannerManager from '../../components/admin/BannerManager';
 
 const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'bartenders' | 'equipments'>('bartenders');
+  const [activeTab, setActiveTab] = useState<'bartenders' | 'equipments' | 'banners'>('bartenders');
 
   useEffect(() => {
     const isAuth = localStorage.getItem('adminAuth');
@@ -58,10 +59,26 @@ const AdminDashboard: React.FC = () => {
           >
             Rental Equipments
           </button>
+          <button 
+            onClick={() => setActiveTab('banners')}
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: activeTab === 'banners' ? 'var(--color-primary)' : 'white',
+              fontWeight: activeTab === 'banners' ? 600 : 400,
+              cursor: 'pointer',
+              fontSize: '1.125rem',
+              padding: '0.5rem 1rem'
+            }}
+          >
+            Manage Banners
+          </button>
         </div>
 
         <div className="glass-panel" style={{ padding: '2rem' }}>
-          {activeTab === 'bartenders' ? <BartenderManager /> : <EquipmentManager />}
+          {activeTab === 'bartenders' && <BartenderManager />}
+          {activeTab === 'equipments' && <EquipmentManager />}
+          {activeTab === 'banners' && <BannerManager />}
         </div>
       </div>
     </Layout>
